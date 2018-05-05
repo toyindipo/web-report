@@ -1,0 +1,176 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout.xhtml">
+
+    <ui:define name="title" >Custom Templates</ui:define>
+    <ui:define name="viewParam" >
+        <f:metadata>
+            <f:viewParam name="view" value="#{paramBean.view}"/>
+            <f:viewParam name="templateId" value="#{paramBean.templateId}"/>
+            <f:event type="preRenderView" listener="#{customTemplateBean.onLoad}"/>
+        </f:metadata>
+    </ui:define>
+    <ui:define name="content">
+
+
+        <h:form id="form" pt:method="post" prependId="false" class="form-horizontal">
+            <div class="contentpanel">
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            </div>
+            <div class="panel">
+                <div class=" panel-heading">
+                    <h2>Web Report  :: JoinObjects</h2> </div>
+                <!-- panel-heading -->
+
+                <div class="col-md-12 text-left panel-body">
+                    <p>Select from the menus on the upper pane to navigate through the application.</p>
+
+                </div>
+
+            </div>
+
+            <h:panelGrid columns="3">
+                <h:panelGroup>
+                    <h:panelGrid columns="1" style="margin: 0 30px;">
+                        <h:outputText value="Select Table" />
+                        <p:selectOneListbox id="selectTable" value="#{customTemplateBean.selectedTable}" converter="#{customTemplateBean.tableConverter}" var="t" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{customTemplateBean.dbTables}" var="table" itemLabel="#{table.tableName}" itemValue="#{table}" />
+                            <p:column rendered="#{t.tableSchema != null}">
+                                <h:outputText value="#{t.tableSchema}: " />
+                            </p:column>
+
+                            <p:column>
+                                <h:outputText value="#{t.tableName}" />
+                            </p:column>
+                            <p:ajax event="change" update="selectColumn" />
+                        </p:selectOneListbox>
+                    </h:panelGrid>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:panelGrid columns="1" style="margin: 0 30px;">
+                        <h:outputText value="Select Columns" />
+                        <p:selectOneListbox id="selectColumn" value="#{customTemplateBean.selectedColumn}" converter="#{customTemplateBean.columnConverter}" var="c" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{customTemplateBean.selectedTable.reportColumns}" var="column" itemLabel="#{column.columnName}" itemValue="#{column}" />
+                            <p:column>
+                                <h:outputText value="#{c.table}: " />
+                            </p:column>
+
+                            <p:column>
+                                <h:outputText value="#{c.columnName}" />
+                            </p:column>
+                        </p:selectOneListbox>
+                        <h:outputLabel value="Set as Join Column:" />
+                        <p:commandButton update="newJoinObject" value="One" action="#{customTemplateBean.addJoinObjectColumn1()}" />
+                        <p:commandButton update="newJoinObject" value="Two" action="#{customTemplateBean.addJoinObjectColumn2()}" />
+                    </h:panelGrid>
+                </h:panelGroup>
+                <h:panelGroup>
+                    <h:panelGrid columns="1" style="margin: 0 30px;">
+                        <p:orderList id="selectOrderList" value="#{customTemplateBean.editJoinObjectList}" var="join" itemValue="#{join}" converter="#{customTemplateBean.joinObjectConverter}" controlsLocation="right" responsive="true">
+                            <f:facet name="caption">Join Columns</f:facet>
+                            <p:column>
+                                <h:outputText value="#{join}" />
+                            </p:column>
+                        </p:orderList>
+                        <p:commandButton value="Update Join Objects Order" action="#{customTemplateBean.updateJoinObjectOrderValues()}"></p:commandButton>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </h:panelGrid>
+            <h:panelGrid id="newJoinObject" columns="2" style="margin: 0 30px;">
+                <f:facet name="caption">New Join Object</f:facet>
+                <h:outputText value="Table 1 Name:  " />
+                <h:outputText value="#{(customTemplateBean.newJoinObject.column1 == null ||
+	            			customTemplateBean.newJoinObject.column1.table == null ) ? '' : customTemplateBean.newJoinObject.column1.table}" />
+                <h:outputText value="Column 1 Name:  " />
+                <h:outputText value="#{customTemplateBean.newJoinObject.column1 == null ? '' : customTemplateBean.newJoinObject.column1}" />
+                <h:outputText value="Table 2 Name: " />
+                <h:outputText value="#{(customTemplateBean.newJoinObject.column2 == null ||
+	            			customTemplateBean.newJoinObject.column2.table == null ) ? '' : customTemplateBean.newJoinObject.column2.table}" />
+                <h:outputText value="Column 2 Name:  " />
+                <h:outputText value="#{customTemplateBean.newJoinObject.column2 == null ? '' : customTemplateBean.newJoinObject.column2}" />
+
+                <p:commandButton value="Add to list" action="#{customTemplateBean.addJoinObject()}" update="newJoinObject newJoinObjects selectOrderList" />
+            </h:panelGrid>
+
+            <h:panelGrid style="margin:20px;">
+                <h:outputLabel value="New Join Object" />
+                <p:dataTable id="newJoinObjects" value="#{customTemplateBean.newJoinObjectList}" var="join"
+                             emptyMessage="No New Join Object">
+
+                    <p:column headerText="Table Name: 1">
+                        <h:outputText value="#{join.column1.table.tableName}" />
+                    </p:column>
+                    <p:column headerText="Column Name: 1">
+                        <h:outputText value="#{join.column1.columnName}" />
+                    </p:column>
+                    <p:column headerText="Table Name: 2">
+                        <h:outputText value="#{join.column2.table.tableName}" />
+                    </p:column>
+                    <p:column headerText="Column Name: 2">
+                        <h:outputText value="#{join.column2.columnName}" />
+                    </p:column>
+                    <p:column headerText="Description">
+                        <p:inputText value="#{join.joinDescription}" />
+                    </p:column>
+
+                    <p:column headerText="Save">
+                        <p:commandButton update="newJoinObjects savedJoinObjects" value="Save" action="#{customTemplateBean.saveSelectedJoinObject()}">
+                            <f:setPropertyActionListener value="#{join}" target="#{customTemplateBean.selectedJoinObject}" />
+                        </p:commandButton>
+                    </p:column>
+                    <p:column headerText="Delete">
+                        <p:commandButton update="newJoinObjects" value="Delete" action="#{customTemplateBean.deleteSelectedJoinObject()}">
+                            <f:setPropertyActionListener value="#{join}" target="#{customTemplateBean.selectedJoinObject}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton update="newJoinObjects savedJoinObjects" value="Save All" action="#{customTemplateBean.saveOrUpdateJoinObjects()}"></p:commandButton>
+            </h:panelGrid>
+
+            <h:panelGrid style="margin:20px;">
+                <h:outputLabel value="Saved Join Objects" />
+                <p:dataTable id="savedJoinObjects" value="#{customTemplateBean.savedJoinObjectList}" var="join"
+                             emptyMessage="No Saved Join Object">
+
+                    <p:column headerText="Table Name: 1">
+                        <h:outputText value="#{join.column1.table.tableName}" />
+                    </p:column>
+                    <p:column headerText="Column Name: 1">
+                        <h:outputText value="#{join.column1.columnName}" />
+                    </p:column>
+                    <p:column headerText="Table Name: 2">
+                        <h:outputText value="#{join.column2.table.tableName}" />
+                    </p:column>
+                    <p:column headerText="Column Name: 2">
+                        <h:outputText value="#{join.column2.columnName}" />
+                    </p:column>
+                    <p:column headerText="Description">
+                        <p:inputText value="#{join.joinDescription}" />
+                    </p:column>
+                    <p:column headerText="Save">
+                        <p:commandButton value="Save" action="#{customTemplateBean.saveSelectedJoinObject()}">
+                            <f:setPropertyActionListener value="#{join}" target="#{customTemplateBean.selectedJoinObject}" />
+                        </p:commandButton>
+                    </p:column>
+
+                    <p:column headerText="Delete">
+                        <p:commandButton update="savedJoinObjects selectOrderList" value="Delete" action="#{customTemplateBean.deleteSelectedJoinObject()}">
+                            <f:setPropertyActionListener value="#{join}" target="#{customTemplateBean.selectedJoinObject}" />
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+            <h:panelGrid columns="2" style="margin:20px">
+                <p:commandButton ajax="false" value="View Template" action="#{customTemplateBean.openTemplatePage()}"/>
+                <p:commandButton ajax="false" rendered="#{not customTemplateBean.template.sqlStringDefined}" value="Edit Criteria Object" action="#{customTemplateBean.openCriteriaPage()}"/>
+            </h:panelGrid>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

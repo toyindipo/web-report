@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				xmlns:p="http://primefaces.org/ui"
+				template="layout.xhtml">
+
+	<ui:define name="title" >Custom Templates</ui:define>
+	<ui:define name="viewParam" >
+		<f:metadata>
+			<f:viewParam name="view" value="#{paramBean.view}"/>
+			<f:viewParam name="templateId" value="#{paramBean.templateId}"/>
+			<f:event type="preRenderView" listener="#{customTemplateBean.onLoad}"/>
+		</f:metadata>
+	</ui:define>
+	<ui:define name="content">
+
+
+		<h:form id="form" pt:method="post" prependId="false" class="form-horizontal">
+			<div class="contentpanel">
+
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+			</div>
+			<div class="panel">
+				<div class=" panel-heading">
+					<h2>Web Report  :: Report Criteria</h2> </div>
+				<!-- panel-heading -->
+
+				<div class="col-md-12 text-left panel-body">
+					<p>Select from the menus on the upper pane to navigate through the application.</p>
+
+				</div>
+
+			</div>
+
+			<h:panelGrid columns="3">
+				<h:panelGroup>
+					<h:panelGrid columns="1" style="margin: 0 30px;">
+						<h:outputText value="Select Table" />
+						<p:selectOneListbox id="selectTable" value="#{customTemplateBean.selectedTable}" converter="#{customTemplateBean.tableConverter}" var="t" filter="true" filterMatchMode="contains">
+							<f:selectItems value="#{customTemplateBean.getTemplateDBTables}" var="table" itemLabel="#{table.tableName}" itemValue="#{table}" />
+							<p:column rendered="#{t.tableSchema != null}">
+								<h:outputText value="#{t.tableSchema}: " />
+							</p:column>
+
+							<p:column>
+								<h:outputText value="#{t.tableName}" />
+							</p:column>
+							<p:ajax event="change" update="selectColumn" />
+						</p:selectOneListbox>
+					</h:panelGrid>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:panelGrid columns="1" style="margin: 0 30px;">
+						<h:outputText value="Select Column" />
+						<p:selectOneListbox id="selectColumn" value="#{customTemplateBean.selectedColumn}" converter="#{customTemplateBean.columnConverter}" var="c" filter="true" filterMatchMode="contains">
+							<f:selectItems value="#{customTemplateBean.selectedTable.reportColumns}" var="column" itemLabel="#{column.columnName}" itemValue="#{column}" />
+							<p:column>
+								<h:outputText value="#{c.table}: " />
+							</p:column>
+
+							<p:column>
+								<h:outputText value="#{c.columnName}" />
+							</p:column>
+							<p:ajax event="change" update="newCriteriaObject" listener="#{customTemplateBean.addCriteriaColumn()}" />
+						</p:selectOneListbox>
+
+					</h:panelGrid>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:panelGrid columns="1" style="margin: 0 30px;">
+						<p:orderList id="selectOrderList" value="#{customTemplateBean.editCriteriaList}" var="criteria" itemValue="#{criteria}" converter="#{customTemplateBean.criteriaConverter}" controlsLocation="right" responsive="true">
+							<f:facet name="caption">Criteria</f:facet>
+							<p:column>
+								<h:outputText value="#{criteria}" />
+							</p:column>
+						</p:orderList>
+						<p:commandButton value="Update Criteria Order" action="#{customTemplateBean.updateCriteriasOrderValues()}"></p:commandButton>
+					</h:panelGrid>
+				</h:panelGroup>
+			</h:panelGrid>
+			<h:panelGrid id="newCriteriaObject" columns="2" style="margin: 0 30px;">
+				<f:facet name="caption">New Criteria Object</f:facet>
+				<h:outputText value="Table Name:  " />
+				<h:outputText value="#{customTemplateBean.newCriteria.reportColumn == null} ? '' : #{customTemplateBean.newCriteria.reportColumn.table}}" />
+				<h:outputText value="Column Name:  " />
+				<h:outputText value="#{customTemplateBean.newCriteria.reportColumn == null} ? '' : #{customTemplateBean.newCriteria.reportColumn}}" />
+
+				<p:commandButton value="Add to list" action="#{customTemplateBean.addCriteriaToList()}" update="newCriteriaObject newCriteriaObjects selectOrderList" />
+			</h:panelGrid>
+
+
+			<h:panelGrid style="margin:20px;">
+				<h:outputLabel value="New Criteria Objects" />
+				<p:dataTable id="newCriteriaObjects" value="#{customTemplateBean.newCriteriaList}" var="criteria"
+							 emptyMessage="No New Criteria Object">
+
+					<p:column headerText="Table Name">
+						<h:outputText value="#{criteria.reportColumn.table.tableName}" />
+					</p:column>
+					<p:column headerText="Column Name">
+						<h:outputText value="#{criteria.reportColumn.columnName}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu value="#{criteria.criteriaType}">
+							<f:selectItems value="#{customTemplateBean.criteriaTypes}" var="criteriaType"
+										   itemValue="#{criteriaType}" itemLabel="#{criteriaType.symbol}" />
+							<p:ajax event="change" update="value2_new"></p:ajax>
+						</p:selectOneMenu>
+					</p:column>
+					<p:column headerText="Value1">
+						<p:inputText value="#{criteria.value1}"></p:inputText>
+					</p:column>
+					<p:column id="value2_new" headerText="Value2">
+						<p:inputText value="#{criteria.value2}" rendered="#{criteria.criteriaType == 'BETWEEN'}"/>
+						<h:outputText value="N/A" rendered="#{criteria.criteriaType != 'BETWEEN'}"/>
+					</p:column>
+					<p:column headerText="Save">
+						<p:commandButton update="newCriteriaObjects savedCriteriaObjects" value="Save" action="#{customTemplateBean.saveSelectedCriteria()}">
+							<f:setPropertyActionListener value="#{criteria}" target="#{customTemplateBean.selectedCriteria}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Delete">
+						<p:commandButton update="newCriteriaObjects selectOrderList" value="Save" action="#{customTemplateBean.deleteSelectedCriteria()}">
+							<f:setPropertyActionListener value="#{criteria}" target="#{customTemplateBean.selectedCriteria}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:commandButton update="newCriteriaObjects savedCriteriaObjects" value="Save All" action="#{customTemplateBean.saveOrUpdateCriterias()}"></p:commandButton>
+			</h:panelGrid>
+
+			<h:panelGrid style="margin:20px;">
+				<h:outputLabel value="Saved Criteria Objects" />
+				<p:dataTable id="savedCriteriaObjects" value="#{customTemplateBean.savedCriteriaList}" var="criteria"
+							 emptyMessage="No Saved Criteria Object">
+
+					<p:column headerText="Table Name">
+						<h:outputText value="#{criteria.reportColumn.table.tableName}" />
+					</p:column>
+					<p:column headerText="Column Name">
+						<h:outputText value="#{criteria.reportColumn.columnName}" />
+					</p:column>
+					<p:column>
+						<p:selectOneMenu value="#{criteria.criteriaType}">
+							<f:selectItems value="#{customTemplateBean.criteriaTypes}" var="criteriaType"
+										   itemValue="#{criteriaType}" itemLabel="#{criteriaType.symbol}" />
+							<p:ajax event="change" update="value2_saved"></p:ajax>
+						</p:selectOneMenu>
+					</p:column>
+					<p:column headerText="Value1">
+						<p:inputText value="#{criteria.value1}"/>
+					</p:column>
+					<p:column id="value2_saved" headerText="Value2">
+						<p:inputText value="#{criteria.value2}" rendered="#{criteria.criteriaType == 'BETWEEN'}"/>
+						<h:outputText value="N/A" rendered="#{criteria.criteriaType != 'BETWEEN'}"/>
+					</p:column>
+					<p:column headerText="Save">
+						<p:commandButton value="Save" action="#{customTemplateBean.saveSelectedCriteria()}">
+							<f:setPropertyActionListener value="#{criteria}" target="#{customTemplateBean.selectedCriteria}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Delete">
+						<p:commandButton update="selectOrderList" value="Save" action="#{customTemplateBean.deleteSelectedCriteria()}">
+							<f:setPropertyActionListener value="#{criteria}" target="#{customTemplateBean.selectedCriteria}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+			<h:panelGrid columns="2" style="margin:20px">
+				<p:commandButton value="View Template" action="#{customTemplateBean.openTemplatePage()}"/>
+				<p:commandButton value="Edit Column Fields" action="#{customTemplateBean.openColumnPage()}"/>
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>

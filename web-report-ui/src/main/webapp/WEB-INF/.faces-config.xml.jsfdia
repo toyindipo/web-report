@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#*" PATH="/*" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:0" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="home::#pages#home.xhtml" NAME="output"
+    PATH="/pages/home.xhtml" TARGET="rules:#pages#home.xhtml"
+    TITLE="home" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:1" PATH="/*" SHAPE="32,129,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:1" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="jasperTemplates::#pages#jasperTemplates.xhtml" NAME="output"
+    PATH="/pages/jasperTemplates.xhtml"
+    TARGET="rules:#pages#jasperTemplates.xhtml" TITLE="jasperTemplates" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:2" PATH="/*" SHAPE="32,241,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:2" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="customTemplates::#pages#customTemplates.xhtml" NAME="output"
+    PATH="/pages/customTemplates.xhtml"
+    TARGET="rules:#pages#customTemplates.xhtml" TITLE="customTemplates" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:3" PATH="/*" SHAPE="32,353,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:3" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="viewCustomTemplate::#pages#viewCustomTemplate.xhtml"
+    NAME="output" PATH="/pages/viewCustomTemplate.xhtml"
+    TARGET="rules:#pages#viewCustomTemplate.xhtml"
+    TITLE="viewCustomTemplate" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:4" PATH="/*" SHAPE="32,465,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:4" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editCustomColumns::#pages#editCustomColumns.xhtml" NAME="output"
+    PATH="/pages/editCustomColumns.xhtml"
+    TARGET="rules:#pages#editCustomColumns.xhtml"
+    TITLE="editCustomColumns" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:5" PATH="/*" SHAPE="32,577,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:5" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editCustomCriteriaFields::#pages#editCustomCriteriaFields.xhtml"
+    NAME="output" PATH="/pages/editCustomCriteriaFields.xhtml"
+    TARGET="rules:#pages#editCustomCriteriaFields.xhtml"
+    TITLE="editCustomCriteriaFields" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:6" PATH="/*" SHAPE="32,689,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:6" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="editCustomJoinFields::#pages#editCustomJoinFields.xhtml"
+    NAME="output" PATH="/pages/editCustomJoinFields.xhtml"
+    TARGET="rules:#pages#editCustomJoinFields.xhtml"
+    TITLE="editCustomJoinFields" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:7" PATH="/*" SHAPE="32,801,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:7" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="viewJasperTemplates::#pages#viewJasperTemplate.xhtml"
+    NAME="output" PATH="/pages/viewJasperTemplate.xhtml"
+    TARGET="rules:#pages#viewJasperTemplate.xhtml"
+    TITLE="viewJasperTemplates" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:8" PATH="/*" SHAPE="32,913,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:8" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="newJasperTemplates::#pages#newJasperTemplates.xhtml"
+    NAME="output" PATH="/pages/newJasperTemplates.xhtml"
+    TARGET="rules:#pages#newJasperTemplates.xhtml"
+    TITLE="newJasperTemplates" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:9" PATH="/*" SHAPE="32,1025,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:9" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="newCustomTemplates::#pages#newCustomTemplates.xhtml"
+    NAME="output" PATH="/pages/newCustomTemplates.xhtml"
+    TARGET="rules:#pages#newCustomTemplates.xhtml"
+    TITLE="newCustomTemplates" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:10" PATH="/*" SHAPE="32,1137,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:10" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="audit::#pages#audit.xhtml" NAME="output"
+    PATH="/pages/audit.xhtml" TARGET="rules:#pages#audit.xhtml"
+    TITLE="audit" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#*:11" PATH="/*" SHAPE="32,1249,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#*:11" NAME="item" PATH="/*" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="users::#pages#users.xhtml" NAME="output"
+    PATH="/pages/users.xhtml" TARGET="rules:#pages#users.xhtml"
+    TITLE="users" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#pages#viewCustomTemplate.xhtml"
+  PATH="/pages/viewCustomTemplate.xhtml" SHAPE="240,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#audit.xhtml" PATH="/pages/audit.xhtml"
+  SHAPE="240,1153,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#editCustomCriteriaFields.xhtml"
+  PATH="/pages/editCustomCriteriaFields.xhtml" SHAPE="240,593,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#newJasperTemplates.xhtml"
+  PATH="/pages/newJasperTemplates.xhtml" SHAPE="240,929,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#jasperTemplates.xhtml"
+  PATH="/pages/jasperTemplates.xhtml" SHAPE="240,145,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#viewJasperTemplate.xhtml"
+  PATH="/pages/viewJasperTemplate.xhtml" SHAPE="240,817,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#newCustomTemplates.xhtml"
+  PATH="/pages/newCustomTemplates.xhtml" SHAPE="240,1041,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#editCustomJoinFields.xhtml"
+  PATH="/pages/editCustomJoinFields.xhtml" SHAPE="240,705,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#users.xhtml" PATH="/pages/users.xhtml"
+  SHAPE="240,1265,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#editCustomColumns.xhtml"
+  PATH="/pages/editCustomColumns.xhtml" SHAPE="240,481,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#customTemplates.xhtml"
+  PATH="/pages/customTemplates.xhtml" SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#pages#home.xhtml" PATH="/pages/home.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

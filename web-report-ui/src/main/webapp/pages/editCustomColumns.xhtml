@@ -1,0 +1,152 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+				xmlns:ui="http://java.sun.com/jsf/facelets"
+				xmlns:f="http://java.sun.com/jsf/core"
+				xmlns:h="http://java.sun.com/jsf/html"
+				xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+				xmlns:p="http://primefaces.org/ui"
+				template="layout.xhtml">
+
+	<ui:define name="title" >Custom Templates</ui:define>
+	<ui:define name="viewParam" >
+		<f:metadata>
+			<f:viewParam name="view" value="#{paramBean.view}"/>
+			<f:viewParam name="templateId" value="#{paramBean.templateId}"/>
+			<f:event type="preRenderView" listener="#{customTemplateBean.onLoad}"/>
+		</f:metadata>
+	</ui:define>
+	<ui:define name="content">
+
+
+		<h:form id="form" pt:method="post" prependId="false" class="form-horizontal">
+			<div class="contentpanel">
+
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+			</div>
+			<div class="panel">
+				<div class=" panel-heading">
+					<h2>Web Report  :: Report Column</h2> </div>
+				<!-- panel-heading -->
+
+				<div class="col-md-12 text-left panel-body">
+					<p>Select from the menus on the upper pane to navigate through the application.</p>
+
+				</div>
+
+			</div>
+
+			<h:panelGrid columns="3" cellspacing="30px" cellpadding="30px">
+				<h:panelGroup>
+					<h:panelGrid columns="1" style="margin: 0 30px;">
+						<f:facet name="caption">Select Table</f:facet>
+						<p:selectOneListbox id="selectTable" value="#{customTemplateBean.selectedTable}" converter="#{customTemplateBean.tableConverter}" var="t" filter="true" filterMatchMode="contains">
+
+							<f:selectItems value="#{customTemplateBean.dbTables}" var="table" itemLabel="#{table.tableName}" itemValue="#{table}" />
+							<p:column rendered="#{t.tableSchema != null}">
+								<h:outputText value="#{t.tableSchema}: " />
+							</p:column>
+
+							<p:column>
+								<h:outputText value="#{t.tableName}" />
+							</p:column>
+							<p:ajax update="pickColumns" listener="#{customTemplateBean.setColumnPickListData}" />
+						</p:selectOneListbox>
+					</h:panelGrid>
+				</h:panelGroup>
+				<h:panelGroup style="margin: 0 30px;">
+					<h:panelGrid columns="1" style="margin: 0 30px;">
+						<f:facet name="caption">Select Columns</f:facet>
+						<p:pickList id="pickColumns" value="#{customTemplateBean.columnPickList}" var="column" converter="#{customTemplateBean.columnConverter}" itemLabel="#{column}" itemValue="#{column}" />
+
+						<p:commandButton update="selectOrderList newColumns" value="Update Select Fields" action="#{customTemplateBean.updateSelectedColumnList()}" style="margin: 25px auto;"></p:commandButton>
+					</h:panelGrid>
+				</h:panelGroup>
+				<h:panelGroup>
+					<h:panelGrid columns="1" style="margin: 0 30px;">
+						<f:facet name="caption">Select Fields</f:facet>
+						<p:orderList id="selectOrderList" value="#{customTemplateBean.selectedColumns}" var="column" itemValue="#{column}" converter="#{customTemplateBean.columnConverter}" controlsLocation="right" responsive="true">
+							<p:column>
+								<h:outputText value="#{column}" />
+							</p:column>
+						</p:orderList>
+						<p:commandButton value="Update Select Fields Order" action="#{customTemplateBean.updateSelectedColumnsOrderValues}"></p:commandButton>
+					</h:panelGrid>
+				</h:panelGroup>
+			</h:panelGrid>
+			<h:panelGrid style="margin:20px;">
+				<h:outputLabel value="New Columns" />
+				<p:dataTable id="newColumns" value="#{customTemplateBean.newSelectColumns}" var="column"
+							 emptyMessage="No New Select Field Columns">
+
+					<p:column headerText="Table Name">
+						<h:outputText value="#{column.table.tableName}" />
+					</p:column>
+					<p:column headerText="Column Name">
+						<h:outputText value="#{column.columnName}" />
+					</p:column>
+					<p:column headerText="Column Type">
+						<h:outputText value="#{column.columnTypeLabel}" />
+					</p:column>
+					<p:column headerText="Column Header">
+						<h:inputText value="#{column.columnHeader}" />
+					</p:column>
+					<p:column headerText="Width Ratio">
+						<h:inputText type="number" value="#{column.widthRatio}" />
+					</p:column>
+					<p:column headerText="Save">
+						<p:commandButton update="newColumns savedColumns" value="Save" action="#{customTemplateBean.saveSelectedColumn()}">
+							<f:setPropertyActionListener value="#{column}" target="#{customTemplateBean.selectedColumn}" />
+						</p:commandButton>
+					</p:column>
+					<p:column headerText="Delete">
+						<p:commandButton update="newColumns selectOrderList" value="Delete" action="#{customTemplateBean.removeColumnAsSelectField()}">
+							<f:setPropertyActionListener value="#{column}" target="#{customTemplateBean.selectedColumn}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:commandButton update="newColumns savedColumns" value="Save All" action="#{customTemplateBean.saveNewColumns()}"></p:commandButton>
+			</h:panelGrid>
+
+			<h:panelGrid style="margin:20px;">
+				<h:outputLabel value="Saved Columns" />
+				<p:dataTable id="savedColumns" value="#{customTemplateBean.savedSelectColumns}" var="column"
+							 emptyMessage="No Saved Select Field Columns">
+
+					<p:column headerText="Table Name">
+						<h:outputText value="#{column.table.tableName}" />
+					</p:column>
+					<p:column headerText="Column Name">
+						<h:outputText value="#{column.columnName}" />
+					</p:column>
+					<p:column headerText="Column Type">
+						<h:outputText value="#{column.columnTypeLabel}" />
+					</p:column>
+					<p:column headerText="Column Header">
+						<h:inputText value="#{column.columnHeader}" />
+					</p:column>
+					<p:column headerText="Width Ratio">
+						<h:inputText type="number" value="#{column.widthRatio}" />
+					</p:column>
+					<p:column headerText="Save">
+						<p:commandButton value="Save" action="#{customTemplateBean.saveSelectedColumn()}">
+							<f:setPropertyActionListener value="#{column}" target="#{customTemplateBean.selectedColumn}" />
+						</p:commandButton>
+					</p:column>
+
+					<p:column headerText="Delete">
+						<p:commandButton update="savedColumns selectOrderList" value="Delete" action="#{customTemplateBean.removeColumnAsSelectField()}">
+							<f:setPropertyActionListener value="#{column}" target="#{customTemplateBean.selectedColumn}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:panelGrid>
+
+			<h:panelGrid columns="2" cellpadding="20px" style="margin:20px">
+				<p:commandButton value="View Template" action="#{customTemplateBean.openTemplatePage()}"/>
+				<p:commandButton rendered="#{not customTemplateBean.template.sqlStringDefined}" value="Edit Join Objects" action="#{customTemplateBean.openJoinPage()}"/>
+			</h:panelGrid>
+		</h:form>
+
+
+	</ui:define>
+</ui:composition>

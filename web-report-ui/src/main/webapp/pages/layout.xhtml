@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">     
+
+
+    <!-- Mirrored from avenger.kaijuthemes.com/layout-horizontal-small.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Oct 2016 15:34:33 GMT -->
+    <f:view>
+        <h:head>
+            <title>Web Report  - <ui:insert name="title" /></title>
+            <meta charset="utf-8"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+            <meta name="apple-mobile-web-app-capable" content="yes"/>
+            <meta name="apple-touch-fullscreen" content="yes"/>
+            <meta name="description" content="Avenger Admin Theme"/>
+            <meta name="author" content="KaijuThemes"/>
+
+            <link href='http://fonts.googleapis.com/css?family=RobotoDraft:300,400,400italic,500,700' rel='stylesheet' type='text/css'/>
+            <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,600,700' rel='stylesheet' type='text/css'/>
+
+            <!--[if lt IE 10]>
+                <script src="assets/js/media.match.min.js"></script>
+                <script src="assets/js/placeholder.min.js"></script>
+            <![endif]-->
+
+            <link href="#{request.contextPath}/assets/fonts/font-awesome/css/font-awesome.min.css" type="text/css" rel="stylesheet"/>        
+            <link href="#{request.contextPath}/assets/css/styles.css" type="text/css" rel="stylesheet"/>                                     
+            <link href="#{request.contextPath}/assets/plugins/jstree/dist/themes/avenger/style.min.css" type="text/css" rel="stylesheet"/>    
+            <link href="#{request.contextPath}/assets/plugins/codeprettifier/prettify.css" type="text/css" rel="stylesheet"/>                
+            <link href="#{request.contextPath}/assets/plugins/iCheck/skins/minimal/blue.css" type="text/css" rel="stylesheet"/>  
+            
+
+            
+            
+            <ui:insert name="viewParam"/>
+        </h:head>
+
+        <h:body class="infobar-overlay horizontal-nav">
+
+            <div id="wrapper">
+
+                <header id="topnav" class="navbar navbar-midnightblue navbar-fixed-top clearfix" style="height: 48px" role="banner">
+
+
+
+                    <div class="yamm col-md-4"> <a><span class="text-logo">Access Transfast Portal</span></a>
+                    </div>
+                    <div class="yamm dis-flex pull-right" >           
+                        <!-- img src="/web-report-ui/assets/img/accesslogo.png" width="250" height="30" style="margin-right: 10px; margin-top: 10px"/-->
+                        <form name="logoutForm" action="${request.contextPath}/logout" method='POST'>
+                            <a href="#" onclick="form[logoutForm].submit();">
+                                <i class="fa fa-sign-out"></i> <span>Log out</span>
+                            </a>
+                        </form>
+                    </div>
+                </header>
+
+                <nav class="navbar sidebar-inverse navbar-inverse" role="navigation" id="headernav" style="color:white;">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#horizontal-navbar">
+                            <i class="fa fa-navicon"></i>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse " id="horizontal-navbar">
+                        <ul class="nav navbar-nav smart-menu">
+                            <li><h:link class="#{(paramBean.view == null || paramBean.view == '') ? 'active' : ''}" outcome="home"><i class="fa fa-dashboard"></i> <span>Home</span></h:link></li>
+                            
+                            <li><h:link class="#{paramBean.view == 'jasperTemplates' ? 'active' : ''}" rendered="true" outcome="jasperTemplates?view=jasperTemplates"><i class="fa fa-th-list"></i> <span>Jasper Templates</span></h:link></li>
+                            <li><h:link class="#{paramBean.view == 'customTemplates' ? 'active' : ''}" rendered="true" outcome="customTemplates?view=customTemplates"><i class="fa fa-th-list"></i> <span>Custom Templates</span></h:link></li>
+                            <li><h:link class="#{paramBean.view == 'users' ? 'active' : ''}" rendered="true" outcome="users?view=users"><i class="fa fa-th-list"></i> <span>User Profiles</span></h:link></li>
+                            <li><h:link class="#{paramBean.view == 'audit' ? 'active' : ''}" rendered="true" outcome="audit?view=audit"><i class="fa fa-th-list"></i> <span>Audit Trails</span></h:link></li>
+                        </ul>
+                    </div>
+                </nav>
+
+                <div class="static-content">
+                    <div class="page-content">
+                        <h4>Hello, #{request.userPrincipal.name}</h4>
+                        <ui:insert name="content"/>
+                    </div> <!-- #page-content -->
+                </div>
+
+
+            </div>
+
+
+            <footer role="contentinfo">
+                <div class="clearfix">
+                    <ul class="list-unstyled list-inline pull-left">
+                        <li><h6 style="margin: 0;"> 2018 © ActivEge</h6></li>
+                    </ul>
+                    <button class="pull-right btn btn-link btn-xs hidden-print" id="back-to-top"><i class="fa fa-arrow-up"></i></button>
+                </div>
+            </footer>
+
+
+
+
+
+            <!-- Load site level scripts -->
+
+
+            <script src="#{request.contextPath}/assets/js/jquery-1.10.2.min.js"></script>							<!-- Load jQuery -->
+            <script src="#{request.contextPath}/assets/js/jqueryui-1.9.2.min.js"></script> 							<!-- Load jQueryUI -->
+
+            <script src="#{request.contextPath}/assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
+
+
+            
+            <script src="#{request.contextPath}/assets/plugins/sparklines/jquery.sparklines.min.js"></script>  		<!-- Sparkline -->
+            <script src="#{request.contextPath}/assets/plugins/jstree/dist/jstree.min.js"></script>  				<!-- jsTree -->
+
+            <script src="#{request.contextPath}/assets/plugins/codeprettifier/prettify.js"></script> 				<!-- Code Prettifier  -->
+            <script src="#{request.contextPath}/assets/plugins/bootstrap-switch/bootstrap-switch.js"></script> 		<!-- Swith/Toggle Button -->
+
+            <script src="#{request.contextPath}/assets/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js"></script>  <!-- Bootstrap Tabdrop -->
+
+            
+            
+
+            <!-- Load page level scripts-->
+
+            <script src="#{request.contextPath}/assets/plugins/smartmenus/jquery.smartmenus.js"></script>
+            <script src="#{request.contextPath}/assets/plugins/smartmenus/addons/bootstrap/jquery.smartmenus.bootstrap.js"></script>
+ 
+        
+
+            <script src="#{request.contextPath}/assets/js/buttons.flash.min.js"></script>
+            <script src="#{request.contextPath}/assets/js/jszip.min.js"></script>
+            <script src="#{request.contextPath}/assets/js/pdfmake.min.js"></script>
+            <script src="#{request.contextPath}/assets/js/vfs_fonts.js"></script>
+            <script src="#{request.contextPath}/assets/js/buttons.html5.min.js"></script>
+            <script src="#{request.contextPath}/assets/js/buttons.print.min.js"></script>
+
+
+
+
+
+        </h:body>
+    </f:view>
+    <!-- Mirrored from avenger.kaijuthemes.com/layout-horizontal-small.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 15 Oct 2016 15:34:35 GMT -->
+</html>

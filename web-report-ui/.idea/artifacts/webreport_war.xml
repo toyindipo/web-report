@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="webreport:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="webreport.war">
+      <element id="artifact" artifact-name="web-report-ui:war exploded" />
+    </root>
+  </artifact>
+</component>

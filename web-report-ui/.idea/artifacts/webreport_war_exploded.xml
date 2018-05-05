@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="webreport:war exploded">
+    <output-path>$PROJECT_DIR$/target/webreport</output-path>
+    <root id="root">
+      <element id="extracted-dir" path="$PROJECT_DIR$/target/webreport.war" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

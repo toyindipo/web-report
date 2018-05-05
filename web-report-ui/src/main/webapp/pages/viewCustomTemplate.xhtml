@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout.xhtml">
+
+    <ui:define name="title" >Custom Template</ui:define>
+    <ui:define name="viewParam" >
+        <f:metadata>
+	        <f:viewParam name="view" value="#{paramBean.view}"/>
+	        <f:viewParam name="templateId" value="#{paramBean.templateId}"/>
+	        <f:event type="preRenderView" listener="#{customTemplateBean.onLoad}"/>
+    	</f:metadata>
+    </ui:define> 
+    <ui:define name="content">
+
+
+        <h:form id="form" pt:method="post" prependId="false" class="form-horizontal">
+            <div class="contentpanel">
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            </div>
+            <div class="panel">
+                <div class=" panel-heading">
+                    <h2>Web Report  :: Custom Templates</h2> </div>
+                <!-- panel-heading -->               
+                
+                    <div class="col-md-12 text-left panel-body">
+                          <p>Select from the menus on the upper pane to navigate through the application.</p>
+                                          
+                    </div>
+                  
+            </div>
+            <h:panelGrid columns="1" style="margin:30px">
+            	<h:link outcome="newCustomTemplate?view=newCustomTemplate"><i class="fas fa-plus"></i> <span>New Custom Template</span></h:link>
+            </h:panelGrid>              
+                <h:panelGrid columns="2" cellpadding="5" style="margin:30px">
+               		<p:outputLabel for="templateName" value="Template Name" />
+               		<h:outputText id="templateName" value="#{customTemplateBean.template.templateName}" />
+               		<p:outputLabel for="reportHeader" value="Report Header" />
+               		<h:outputText id="reportHeader" value="#{customTemplateBean.template.reportHeader}" />
+               		<p:outputLabel for="sqlDefined" value="Input SQL String?" />
+               		<p:selectBooleanCheckbox id="sqlDefined" value="#{customTemplateBean.template.sqlStringDefined}">
+                         <p:ajax event="change" update="sqlString" />
+                     </p:selectBooleanCheckbox>
+                     <p:outputLabel for="sqlString" value="SQL String" />
+               		<p:inputTextarea id="sqlString" disabled="#{!customTemplateBean.template.sqlStringDefined}" rows="5" cols="50" value="#{customTemplateBean.template.sqlString}" />
+               		<p:outputLabel for="description" value="Template Description" />
+               		<p:inputTextarea id="description" rows="5" cols="50" value="#{customTemplateBean.template.templateDescription}" />
+               		<p:commandButton value="Save Template" action="#{customTemplateBean.saveTemplate}"></p:commandButton>
+               		<p:commandButton value="Edit/Add Columns" action="#{customTemplateBean.openColumnPage}"></p:commandButton>
+                </h:panelGrid>
+                
+                <p:dataTable id="temlateTables" value="#{customTemplateBean.savedTableList}" var="table">
+	            	<f:facet name="caption">Template Tables</f:facet>
+	            	<p:column headerText="Table Schema">
+                        <h:outputText value="#{table.tableSchema}" />
+                    </p:column>
+                    
+	            	<p:column headerText="Table Name">
+                        <h:outputText value="#{table.tableName}" />
+                    </p:column>
+                    
+                    <p:column headerText="Last Modified">
+                        <h:outputText value="#{table.updatedAt}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Delete">
+                        <p:commandButton update="temlateTables" value="Delete" action="#{customTemplateBean.deleteTable(table)}">
+                        	
+                        </p:commandButton>
+                    </p:column>
+	            </p:dataTable>        
+                
+        </h:form>
+           
+       
+    </ui:define>
+</ui:composition>

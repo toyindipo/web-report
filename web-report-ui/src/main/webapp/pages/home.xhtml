@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                template="layout.xhtml">
+
+    <ui:define name="title" >All Templates</ui:define>
+    <ui:define name="viewParam" >
+        <f:metadata>
+        <f:viewParam name="view" value="#{paramBean.view}"/>
+        <f:event type="preRenderView" listener="#{templatesBean.onLoad}"/>
+    </f:metadata>
+    </ui:define> 
+    <ui:define name="content">
+
+
+        <h:form id="form" pt:method="post" prependId="false" class="form-horizontal">
+            <div class="contentpanel">
+
+                <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+
+            </div>
+            <div class="panel">
+                <div class=" panel-heading">
+                    <h2>Web Report  :: All Templates</h2> </div>
+                <!-- panel-heading -->               
+                
+                    <div class="col-md-12 text-left panel-body">
+                          <p>Select from the menus on the upper pane to navigate through the application.</p>
+                                          
+                    </div>
+                  
+            </div>
+                                      
+                <p:dataTable id="templatesTable" var="template" value="#{templatesBean.templateModel}" rows="15"
+                     paginator="true"
+                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15"
+                     widgetVar="templatesTable" lazy="true"
+                    emptyMessage="No templates found with given criteria"
+                     >
+                    <p:column style="width:180px;" headerText="Name" filterBy="#{template.templateName}">
+                        <h:outputText value="#{template.templateName}" />
+                    </p:column>
+                    
+                    <p:column style="width:280px;" headerText="Description" filterBy="#{template.templateDescription}">
+                        <h:outputText value="#{template.templateDescription}" />
+                    </p:column>
+                                        
+                    <p:column style="width:160px;" sortBy="#{template.createdAt}" headerText="Created At">
+                        <h:outputText value="#{template.createdAt}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="View" style="width:100px;text-align: center">
+                        <p:commandButton ajax="false"  icon="ui-icon-search" title="View" action="#{templatesBean.viewTemplate()}">
+                            <f:setPropertyActionListener value="#{template}" target="#{templatesBean.selectedTemplate}" />
+                       </p:commandButton>
+                   </p:column>
+
+                </p:dataTable>           
+                
+        </h:form>
+           
+       
+    </ui:define>
+</ui:composition>
